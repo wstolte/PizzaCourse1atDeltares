@@ -1,0 +1,104 @@
+---
+title: "Gridding of bird data"
+author: "Willem Stolte"
+date: "January 11, 2016"
+output: html_document
+runtime: shiny
+---
+
+## The bird data set
+
+The data used are bird counts from the Dutch coastal waters by Bureau Waardenburg in the scope of [Shortlist Wind op Zee monitoring program](http://marineprojects.openearth.nl/geonetwork/srv/eng/search#|Ecologische%20Monitoring%20Effecten%20Wind%20op%20Zee). The data are managed by Deltares according to OpenEarth filosophy. The data used here are obtained from [the marine projects geoserver](http://marineprojects.openearth.nl/geoserver) by WFS. The data are available as number of individuals encountered for each species, at a given point and time. 
+
+When "Hexagonal grid" or "Rectangular grid" is selected, the data are on the fly converted to grids. The grid cells obtain a value based on the number of times that a particular species was encountered in that grid cell (indpendent on how many individuals were counted per occasion). 
+
+```{r, message=F, warning=F, comment=F, echo = F}
+require(readr) #(faster and simpler read functions than the standard functions)
+require(ggplot2)
+require(rworldmap)
+require(scales)
+require(hexbin)
+require(rgdal)
+require(sp)
+require(dplyr)
+# require(httr)
+# require(shiny)
+```
+
+```{r, message=F, warning=F, comment=F, echo = F, cache = T}
+
+## read data from WFS service
+birds <- read_csv("http://marineprojects.openearth.nl/geoserver/ihm_viewer/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ihm_viewer:shwoz_vogels&outputFormat=csv", col_types = "_ddi___c______ccc__cc_di_")
+## transform to RD for nicer maps
+birds_sp <-  SpatialPoints(cbind(birds$Longitude, birds$Latitude))
+proj4string(birds_sp) <- CRS("+init=epsg:4326")
+
+## proj4 string for RDnew obtained from http://blog.openstreetmap.nl/index.php/tag/epsg28992/
+RDstring <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs"
+
+birds$x.RD <- as.data.frame(spTransform(birds_sp, CRS(RDstring)))[,1]
+birds$y.RD <- as.data.frame(spTransform(birds_sp, CRS(RDstring)))[,2]
+
+birds$datetime <- as.POSIXct(birds$Begindatum, format = "%Y-%m-%dT%H:%M:%S")
+birds$month <- format(birds$datetime, "%h")
+birds$season <- ifelse(birds$month %in% month.abb[seq(3,9,1)], "summer", "winter")
+
+data("countriesLow")
+#convert to RDnew
+countriesLowRD <- spTransform(countriesLow, CRS(RDstring))
+world <- fortify(countriesLowRD)
+map <- ggplot() + geom_polygon(data = world, 
+                               aes(x=long, y=lat, group=group), 
+                               color = "lightgrey", fill = "darkgrey")
+xxlim <- expand_range(c(min(birds$x.RD),max(birds$x.RD)), add = 0.2)
+yylim <- expand_range(c(min(birds$y.RD),max(birds$y.RD)), add = 0.4)
+
+```
+
+In the interactive plot created below, the original point data are plotted. Data can be converted to hexagonal and rectangular grids. The resolution of the converted grids can be chosen, as well as bird species. 
+
+```{r, echo=F, message=F, warning=F, comment=F, fig.width=10, fig.height=10, fig.align = "left"}
+
+sidebarPanel(
+  selectInput("soort", label = "species:",
+              choices = sort(unique(birds$Biotaxon.naam)), selected = "Larus fuscus"),
+  radioButtons("season", label = "Season:",
+              choices = c("winter", "summer")),
+  radioButtons("type", label = "Type:",
+               c("Original points only" = "point", 
+                 "Hexagonal grid" = "hex", 
+                 "Rectangular grid" = "rect"
+               ), selected = "hex"
+  ),
+  sliderInput("resolution", label = "Grid Res (km):",
+              min = 2, max = 40, value = 20, step = 2)
+)
+
+
+mainPanel(
+  renderPlot({
+    birds_selected <- birds %>% 
+      filter_(~Biotaxon.naam == input$soort) %>%
+      filter_(~season == input$season)
+
+    map = map + coord_equal(xlim = xxlim, ylim = yylim)
+    map = map + geom_point(data = birds_selected, aes(x.RD, y.RD, color = log10(Numeriekewaarde)), alpha = 0.8, shape = 20, size = 1)
+    if(input$type == "rect")  {
+      map = map + geom_bin2d(data = birds_selected, aes(x.RD, y.RD, fill = (..count..)), alpha = 0.6, binwidth = as.numeric(1000*c(input$resolution,input$resolution)))
+    }
+    if(input$type == "hex")  {
+      map = map +stat_bin_hex(data = birds_selected, aes(x.RD, y.RD, fill = (..count..)), alpha = 0.6, binwidth = as.numeric(1000*c(input$resolution,input$resolution)))
+    }
+    map = map + ggtitle(paste("")) +
+      scale_fill_gradient(low = "blue", high = "red") +  # limits=c(0,50), breaks=seq(0, 40, by=10), 
+      scale_color_gradient(low = "black", high = "green") +  
+      theme(axis.text = element_blank(),
+            axis.title = element_blank(),
+            axis.line = element_blank(),
+            axis.ticks = element_blank())
+    map
+  }, width = "auto")
+)
+```
+
+Voor meer informatie: [Willem Stolte](mailto: willem.stolte@deltares.nl), Deltares

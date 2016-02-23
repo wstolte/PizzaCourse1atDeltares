@@ -1,0 +1,24 @@
+---
+title: "Course preparation"
+author: "Willem Stolte"
+date: "February 8, 2016"
+output: html_document
+---
+
+##Pizza course "Reproducible and interactive data products and reports in R"
+
+Prior to the course, you should have installed the latest version of R (3.2.2 or newer) and Rstudio (Version 0.99.491 or newer)
+
+R can be downloaded from [the Comprehensive R Archive Network - CRAN](https://cran.r-project.org/). 
+
+
+
+In this course, a number of packages will be used. Installation of packages can always be done during the course, but to save time, please install the following packages beforehand.
+
+```{r}
+install.packages(c(
+  'plyr', 'reshape2', 'ggplot2', 'scales', 'rmarkdown',
+  'dplyr', 'readr', 'tidyr', 'plotly', 'ncdf4', 'RPostgreSQL', 'sp', 'rworldmap', 'leaflet', 'rgeos', 'httr', 'rgdal', 'hexbin', 'ggmap', 'plotly'
+))
+```
+

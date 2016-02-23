@@ -1,0 +1,99 @@
+---
+title: "Scanfish from OpenEarth OPeNDAP"
+author: "Willem Stolte"
+date: "January 8, 2016"
+output: html_document
+---
+
+```{r load_packages, echo = F, message=F, warning=F, results=F, error=F}
+require(ncdf4)
+require(rworldmap)
+library(ggplot2)
+library(scales)
+library(plyr)
+```
+
+### Download netcdf scanfish data
+
+Scanfish data are available via the OpenEarth OPeNDAP server at Deltares. The NetCDF file is first downloaded to a local directory before it is read into memory. Direct acces to NetCDF files using R is possible but this is not yet a standard procedure under MS-Windows. 
+
+```{r dowload_and_read_NetCDF, warning=F, comment= F}
+
+url_scanfish <-"http://opendap.deltares.nl/thredds/fileServer/opendap/rijkswaterstaat/scanfish/scanfish_temperature.nc" 
+
+# download the netcdf file
+download.file(url_scanfish, "scanfish_temperature.nc" , method = "auto",
+              quiet = FALSE, mode="wb", cacheOK = TRUE)
+
+# check directory
+list.files(pattern = ".nc")
+
+# open connection to nc file
+con <- nc_open("scanfish_temperature.nc")
+
+# print(con)  # to see what's inside
+```
+
+Before plotting, the data are converted into a dataframe. the RNetCDF package function read.nc is used for this in combination with the standard function data.frame. 
+
+```{r make_dataframe, warning=F, comment= F}
+# read data into dataframe
+z <- ncvar_get(con, var = "z")
+lon <- ncvar_get(con, var = "lon")
+lat <- ncvar_get(con, var = "lat")
+temp <- ncvar_get(con, var = "temperature")
+time <- ncvar_get(con, var = "TIME")
+df <- data.frame(cbind(z, lon, lat, time, temp))
+
+
+# turn time array into something useful
+df$date <- as.Date(df$time, origin = "1970-01-01 00:00:00", tz = "UTC")
+df$datetime <- as.POSIXct(df$date)
+df$months <- format(df$date, "%m")
+```
+
+The data are now plotted on a static map, using a background map from the rworldmap package. 
+
+```{r plot, warning=F, comment= F, fig.width= 7, fig.height= 6}
+# load country polygon data
+data(countriesLow)
+# turn into dataframe for plotting
+world <- fortify(countriesLow)
+# make subset of scanfish data
+df2 <- subset(df, df$month %in% c("07", "08", "09"))
+# define bbox for plotting
+xxlim <- expand_range(range(df2$lon), mul = 0.1)
+yylim <- expand_range(range(df2$lat), mul = 0.1)
+
+p <- ggplot(df2, aes(lon, lat))
+p + 
+  geom_polygon(data = world,
+               aes(x=long, y=lat, group=group),
+               color = "lightgrey", fill = "darkgrey") +
+  geom_point(aes(color = temp, size = z, order = desc(z))) +
+  # facet_wrap(~ months) +
+  coord_map(xlim = xxlim, ylim = yylim)
+
+
+```
+
+
+###time plot
+```{r, fig.height=3}
+df3 <- subset(df2, date > as.Date("2011-08-03") & date < as.Date("2011-08-04"))
+p <- ggplot(df3, aes(datetime, -z))
+p + geom_point(aes(color = temp))
+
+```
+
+
+### using plot.ly
+
+```{r, message=F, warning=F}
+require(plotly)
+plot_ly(df3, z = z, x = lon, y = lat, type = "scatter3d", mode = "markers", color = temp)
+
+
+```
+
+

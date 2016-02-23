@@ -1,0 +1,101 @@
+---
+title: "Database access R"
+author: "Willem Stolte"
+date: "October 16, 2015"
+output: ioslides_presentation
+---
+
+```{r load_packages, include=FALSE}
+require(RPostgreSQL)
+require(sp)
+require(leaflet)
+require(ggplot2)
+require(rworldmap)
+require(httr)
+```
+
+Mail schrijven met vraag naar specifieke wensen voor cursus
+
+## Data management - access to centrally stored data
+
+* OpenEarth
+* Ecological monitoring Marine Projects
+* Interactive data exploration
+* Transparant and reproducible data products
+
+## Rshiny - adding interactivity
+
+* Model as a service
+* Web application
+* Bird counts
+
+## Rmarkdown - reproducibility
+
+* R --> pdf, html, word
+* Data driven documents
+* Interactive html i.c.w. RMarkdown
+
+## Accessing data 
+
+* Connecting to a database
+* Connecting to a service (WFS)
+
+## Gridded data products
+
+* Heat maps
+* Data interpolation
+* 
+
+## Practical 
+
+* Start Rshiny document
+* Start Rmarkdown document
+* Use open data set
+
+Ik maak nieuw tijdschema.
+mail naar Fedor - verwachtingen
+css
+netcdf
+
+
+
+## Connect to WFS
+Read GeoJSON WFS and plot in leaflet map
+The data that are used here are pelagic fish data from the MEP-NSW ecological monitoring. 
+Look at the url: only the first 50 records are read here. 
+```{r}
+url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_pvis&maxFeatures=50&outputFormat=json"
+
+```
+
+
+## Connect to WFS
+```{r, tidy = T, .smaller}
+jsonResult <- GET(url)
+leaflet() %>%
+  setView(lat = 52.5, lng = 4.5, zoom = 9) %>%
+  addTiles(group = "OSM (default)") %>% 
+  addGeoJSON(content(jsonResult), layerId = "Monster.identificatie")
+```
+
+
+## Data can be plotted on a map using package "ggplot2"" 
+
+
+
+## Interactive map using leaflet package
+
+
+## Why use R markdown?
+
+* [R markdown](http://rmarkdown.rstudio.com/)
+
+* [Cheatsheets](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+* Possibility to convert R markdown into [slidify](http://slidify.github.io/dcmeetup/#8) presentations
+
+```{r, echo=FALSE}
+
+
+```
+
