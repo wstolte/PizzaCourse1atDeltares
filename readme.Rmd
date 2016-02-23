@@ -13,7 +13,7 @@ R can be downloaded from [the Comprehensive R Archive Network - CRAN](https://cr
 
 In this course, a number of packages will be used. Installation of packages can always be done during the course, but to save time, please install the following packages beforehand.
 
-```{r}
+```{r, eval=F}
 install.packages(c(
   'plyr', 'reshape2', 'ggplot2',
   'scales', 'rmarkdown', 'dplyr',
@@ -24,6 +24,15 @@ install.packages(c(
   'plotly'
 ))
 ```
+
+In order to get all the course material installed as a R package on your computer, run the following code:
+
+```{r, eval=F}
+install.packages('devtools')
+require(devtools)
+install_github('wstolte/PizzaCourse1atDeltares')
+```
+
 
 
 
