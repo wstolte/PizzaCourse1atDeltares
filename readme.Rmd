@@ -7,18 +7,50 @@ output: html_document
 
 ##Pizza course "Reproducible and interactive data products and reports in R"
 
-Prior to the course, you should have installed the latest version of R (3.2.2 or newer) and Rstudio (Version 0.99.491 or newer)
+Prior to the course, you should have installed the latest version of R (3.2.2 or newer) and [Rstudio](https://www.rstudio.com/) (Version 0.99.491 or newer)
 
 R can be downloaded from [the Comprehensive R Archive Network - CRAN](https://cran.r-project.org/). 
-
-
 
 In this course, a number of packages will be used. Installation of packages can always be done during the course, but to save time, please install the following packages beforehand.
 
 ```{r}
 install.packages(c(
-  'plyr', 'reshape2', 'ggplot2', 'scales', 'rmarkdown',
-  'dplyr', 'readr', 'tidyr', 'plotly', 'ncdf4', 'RPostgreSQL', 'sp', 'rworldmap', 'leaflet', 'rgeos', 'httr', 'rgdal', 'hexbin', 'ggmap', 'plotly'
+  'plyr', 'reshape2', 'ggplot2',
+  'scales', 'rmarkdown', 'dplyr',
+  'readr', 'tidyr', 'plotly',
+  'ncdf4', 'RPostgreSQL', 'sp',
+  'rworldmap', 'leaflet', 'rgeos',
+  'httr', 'rgdal', 'hexbin', 'ggmap',
+  'plotly'
 ))
 ```
+
+
+
+Background material
+
+1. Learn to work with dynamic documents:
+   + [R markdown reports and presentations] (http://rmarkdown.rstudio.com/)
+   + [R notebooks] (http://rmarkdown.rstudio.com/r_notebook_format.html)
+ 
+2. Interactive statistical models:
+  + [Shiny integration in R markdown Documents] (http://rmarkdown.rstudio.com/authoring_shiny.html)
+  + [Shiny apps] (http://shiny.rstudio.com/)
+  + [Shiny dashboard] (https://rstudio.github.io/shinydashboard/)
+
+3. Global raster data reprocessing:
+  + Examples from satellite measurements (swaths -> grids, ocean / north sea example)
+  + Examples from radar measurements (regridden precipitation example)
+  + Examples stations (regridden temperature raster)
+  + Sample with a model (HIRLAM example)
+
+---
+
+Examples:
+
+[R markdown document regridding of bird counts](https://publicwiki.deltares.nl/display/~stolte/R%2C+bird+data+WFS%2C+distribution+maps+and+grids) 
+
+[Interactive statistical models](https://gammarus.shinyapps.io/ShinyWaterbaseNoordzee) 
+
+[Shiny apps at NIOZ](http://www.rforscience.com/)
 
