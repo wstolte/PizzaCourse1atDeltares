@@ -1,5 +1,5 @@
 ---
-title: "Database access R"
+title: "Reproducible and interactive reporting in R"
 author: "Willem Stolte"
 date: "October 16, 2015"
 output: ioslides_presentation
@@ -14,63 +14,139 @@ require(rworldmap)
 require(httr)
 ```
 
-Mail schrijven met vraag naar specifieke wensen voor cursus
-
-## Data management - access to centrally stored data
+## Overview
 
 * OpenEarth
 * Ecological monitoring Marine Projects
 * Interactive data exploration
 * Transparant and reproducible data products
 
-## Rshiny - adding interactivity
+## OpenEarth data management
+
+* Generic workflow and conventions
+    + Version control of data and tools
+    + Traceable and reproducible
+    + Use available technical and semantic standards
+
+##
+
+![](www/OpenEarth.png)
+
+##
+
+![](www/stack.png)
+
+##Ecological monitoring Marine Projects
+
+<div class="columns-2">
+  ![Image](www/Birds_ShWoZ.png)
+
+* Ecological monitoring
+    + Licencing process e.g. wind parks
+    + diverse data
+    + make data available
+    + for multiple use
+    + all use same version
+
+</div>
+
+
+# Interactive documents
+
+## Rshiny - interactivity
 
 * Model as a service
 * Web application
-* Bird counts
+    + [North Sea Waterbase data](http://tl-284.xtr.deltares.nl:3838/deltares/Noordzee/) (at Deltares test server, only from within Deltares intranet)
+    + [same at Rstudio Shinyapps service](https://gammarus.shinyapps.io/ShinyWaterbaseNoordzee)
+* Html document
+    + [ShWoZ Bird heatmaps](https://gammarus.shinyapps.io/Interactive_gridding/)
+    
+## Rshiny - how to go about
 
-## Rmarkdown - reproducibility
+* UI and Server script (named UI.r and Server.r)
+    + File/new
+* Use app from within Rstudio
+    + Rstudio contains ShinyServer
+* Deploy app via Rstudio [Shinyapps](http://www.shinyapps.io/)
+* Deploy app via locally installed [ShinyServer](http://tl-284.xtr.deltares.nl:3838/)
 
-* R --> pdf, html, word
-* Data driven documents
+# Reproducible reporting
+
+## Principle
+
+* Transparent work flow
+* From data source to final product
+* Optimimal when    
+    + Centralized source data
+    + Version controlled scripts
+    + Keep scripts and report together
+        + Rmarkdown (R, Python)
+        + Jupyter (Python, R, Matlab)
+        
+## Rmarkdown
+
+* R package (runs from every IDE or from console)
+* Rstudio and Rmarkdown
+* R code + text/MD/html --> markdown (MD) --> pdf, html, word
 * Interactive html i.c.w. RMarkdown
+
+## What does Rmarkdown do?
+
+Code chunks
+
+```{r}
+plot(cars)
+```
+
+##
+
+Or run inline code to calculate that the average speed = `r mean(cars$speed)` .
+
+in Rmarkdown:
+
+Or run inline code to calculate that the average speed = \`r_ mean(cars$speed)\` .
+
+## Styling and formatting of Rmarkdown reports
+
+* [R markdown](http://rmarkdown.rstudio.com/)
+
+* [Cheatsheets](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+
 
 ## Accessing data 
 
 * Connecting to a database
 * Connecting to a service (WFS)
+![](www/OpenEarth.png)
+
 
 ## Gridded data products
 
 * Heat maps
 * Data interpolation
-* 
+* Export to NetCDF file format
 
-## Practical 
+## Practical
 
 * Start Rshiny document
 * Start Rmarkdown document
 * Use open data set
-
-Ik maak nieuw tijdschema.
-mail naar Fedor - verwachtingen
-css
-netcdf
-
 
 
 ## Connect to WFS
 Read GeoJSON WFS and plot in leaflet map
 The data that are used here are pelagic fish data from the MEP-NSW ecological monitoring. 
 Look at the url: only the first 50 records are read here. 
-```{r}
+```{r, eval=FALSE}
 url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_pvis&maxFeatures=50&outputFormat=json"
 
 ```
 
 
 ## Connect to WFS
-```{r, tidy = T, .smaller}
+```{r, eval=FALSE, tidy = T, .smaller}
 jsonResult <- GET(url)
 leaflet() %>%
   setView(lat = 52.5, lng = 4.5, zoom = 9) %>%
@@ -86,16 +162,8 @@ leaflet() %>%
 ## Interactive map using leaflet package
 
 
-## Why use R markdown?
+## Extra material
 
-* [R markdown](http://rmarkdown.rstudio.com/)
-
-* [Cheatsheets](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 
 * Possibility to convert R markdown into [slidify](http://slidify.github.io/dcmeetup/#8) presentations
-
-```{r, echo=FALSE}
-
-
-```
 
