@@ -23,10 +23,12 @@ require(httr)
 
 ## OpenEarth data management
 
+* Data, Models, Tools
 * Generic workflow and conventions
     + Version control of data and tools
     + Traceable and reproducible
-    + Use available technical and semantic standards
+    + Use available open technical and semantic standards
+    + Open Source software
 
 ##
 
@@ -65,7 +67,7 @@ require(httr)
 ## Rshiny - how to go about
 
 * UI and Server script (named UI.r and Server.r)
-    + File/new
+    + File/New Project../  new folder / Shiny web application
 * Use app from within Rstudio
     + Rstudio contains ShinyServer
 * Deploy app via Rstudio [Shinyapps](http://www.shinyapps.io/)
@@ -77,41 +79,70 @@ require(httr)
 
 * Transparent work flow
 * From data source to final product
-* Optimimal when    
+* Optimal when    
     + Centralized source data
     + Version controlled scripts
     + Keep scripts and report together
-        + Rmarkdown (R, Python)
-        + Jupyter (Python, R, Matlab)
+        + Rmarkdown (R, basic Python, more)
+        + [Jupyter](https://www.continuum.io/blog/developer/jupyter-and-conda-r?mc_cid=c91ccee4a5&mc_eid=3a45b30e21) (Python, R, Matlab, more) or [here](https://irkernel.github.io/installation/)
         
 ## Rmarkdown
 
-* R package (runs from every IDE or from console)
-* Rstudio and Rmarkdown
+* A Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions. – John Gruber
+* comes as R package (runs from every IDE or from console)
 * R code + text/MD/html --> markdown (MD) --> pdf, html, word
-* Interactive html i.c.w. RMarkdown
+* html can be combined with interactivity (Shiny)
 
 ## What does Rmarkdown do?
 
+<div class="columns-2">
+
 Code chunks
 
-```{r}
+\```{r}  
+plot(cars)  
+\``` 
+
+```{r, echo = F, fig.height=5, fig.width=3}
 plot(cars)
 ```
 
-##
+</div>
+
+## Also works with Python
+
+\```{python}  
+x = 1  
+if x == 1:  
+    # indented four spaces  
+    print "x is 1."  
+\```  
+
+generates:
+```{python}
+x = 1
+if x == 1:
+    # indented four spaces
+    print "x is 1."
+```
+
+But graphics are apparently not (yet) supported.. 
+
+## In-line code in markdown document
 
 Or run inline code to calculate that the average speed = `r mean(cars$speed)` .
 
 in Rmarkdown:
 
-Or run inline code to calculate that the average speed = \`r_ mean(cars$speed)\` .
+Or run inline code to calculate that the average speed = \`r_ mean(cars$speed) \` .
 
 ## Styling and formatting of Rmarkdown reports
 
 * [R markdown](http://rmarkdown.rstudio.com/)
 
 * [Cheatsheets](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+* use css (Custom Style Sheet)
 
 
 

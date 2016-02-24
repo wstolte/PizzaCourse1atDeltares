@@ -25,7 +25,7 @@ require(dplyr)
 # require(shiny)
 ```
 
-```{r, message=F, warning=F, comment=F, echo = F, cache = T}
+```{r, message=F, warning=F, comment=F, echo = F}
 
 ## read data from WFS service
 birds <- read_csv("http://marineprojects.openearth.nl/geoserver/ihm_viewer/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=ihm_viewer:shwoz_vogels&outputFormat=csv", col_types = "_ddi___c______ccc__cc_di_")
@@ -82,7 +82,7 @@ mainPanel(
       filter_(~season == input$season)
 
     map = map + coord_equal(xlim = xxlim, ylim = yylim)
-    map = map + geom_point(data = birds_selected, aes(x.RD, y.RD, color = log10(Numeriekewaarde)), alpha = 0.8, shape = 20, size = 1)
+    map = map + geom_point(data = birds_selected, aes(x.RD, y.RD, color = log10(Numeriekewaarde)), alpha = 0.8, shape = 20, size = 2)
     if(input$type == "rect")  {
       map = map + geom_bin2d(data = birds_selected, aes(x.RD, y.RD, fill = (..count..)), alpha = 0.6, binwidth = as.numeric(1000*c(input$resolution,input$resolution)))
     }
