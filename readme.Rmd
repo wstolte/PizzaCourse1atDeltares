@@ -25,15 +25,6 @@ install.packages(c(
 ))
 ```
 
-In order to get all the course material installed as a R package on your computer, run the following code:
-
-```{r, eval=F}
-install.packages('devtools')
-require(devtools)
-install_github('wstolte/PizzaCourse1atDeltares')
-```
-
-
 
 
 Background material
@@ -47,11 +38,7 @@ Background material
   + [Shiny apps] (http://shiny.rstudio.com/)
   + [Shiny dashboard] (https://rstudio.github.io/shinydashboard/)
 
-3. Global raster data reprocessing:
-  + Examples from satellite measurements (swaths -> grids, ocean / north sea example)
-  + Examples from radar measurements (regridden precipitation example)
-  + Examples stations (regridden temperature raster)
-  + Sample with a model (HIRLAM example)
+3. Raster reprocessing:
 
 ---
 
