@@ -26,7 +26,6 @@ install.packages(c(
 ```
 
 
-
 Background material
 
 1. Learn to work with dynamic documents:
