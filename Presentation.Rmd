@@ -1,16 +1,16 @@
 ---
 title: "Reproducible and interactive reporting in R"
 author: "Willem Stolte"
-date: "October 16, 2015"
+date: "March 01, 2016"
 output: ioslides_presentation
 ---
 
 ```{r load_packages, include=FALSE}
-require(RPostgreSQL)
-require(sp)
+# require(RPostgreSQL)
+# require(sp)
 require(leaflet)
-require(ggplot2)
-require(rworldmap)
+# require(ggplot2)
+# require(rworldmap)
 require(httr)
 ```
 
@@ -41,17 +41,17 @@ require(httr)
 ##Ecological monitoring Marine Projects
 
 <div class="columns-2">
-  ![Image](www/Birds_ShWoZ.png)
 
-* Ecological monitoring
+* Ecological monitoring data
     + Licencing process e.g. wind parks
     + diverse data
-    + make data available
+    + [make data available](http://marineprojects.openearth.nl/)
     + for multiple use
     + all use same version
 
-</div>
+  ![Image](www/Birds_ShWoZ.png)
 
+</div>
 
 # Interactive documents
 
@@ -66,16 +66,19 @@ require(httr)
     
 ## Rshiny - how to go about
 
-* UI and Server script (named UI.r and Server.r)
-    + File/New Project../  new folder / Shiny web application
-* Use app from within Rstudio
-    + Rstudio contains ShinyServer
-* Deploy app via Rstudio [Shinyapps](http://www.shinyapps.io/)
-* Deploy app via locally installed [ShinyServer](http://tl-284.xtr.deltares.nl:3838/)
+* Design and code
+    * UI and Server script (named UI.r and Server.r)
+        + can be combined in one script.
+        + RStudio: File/New Project../  new folder / Shiny web application
+* Run app
+    * Within Rstudio (contains ShinyServer)
+    * Deploy app via Rstudio [Shinyapps](http://www.shinyapps.io/)
+    * Deploy app via locally installed [ShinyServer](http://tl-284.xtr.deltares.nl:3838/)
+        - consult ICT-OS 
 
 # Reproducible reporting
 
-## Principle
+## Why reproducible reporting?
 
 * Transparent work flow
 * From data source to final product
@@ -85,6 +88,7 @@ require(httr)
     + Keep scripts and report together
         + Rmarkdown (R, basic Python, more)
         + [Jupyter](https://www.continuum.io/blog/developer/jupyter-and-conda-r?mc_cid=c91ccee4a5&mc_eid=3a45b30e21) (Python, R, Matlab, more) or [here](https://irkernel.github.io/installation/)
+    + Example - [Veerse meer reports](https://publicwiki.deltares.nl/pages/viewpage.action?pageId=119049204)
         
 ## Rmarkdown
 
@@ -143,8 +147,6 @@ Or run inline code to calculate that the average speed = \`r_ mean(cars$speed) \
 * [Cheatsheets](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 
 * use css (Custom Style Sheet)
-
-
 
 ## Accessing data 
 
