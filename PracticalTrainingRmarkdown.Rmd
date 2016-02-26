@@ -9,10 +9,68 @@ output: pdf_document
 
 * In Rstudio, choose from file menu: New File / R Markdown...
 * Determine what kind of document you want it to be
-    + for this training, choose "pdf"
+    + for this training, choose "html"
     Note that you can also choose a presentation, which changes the choices of the formats that it can handle
 * The document opens with some standard, functional, content to get going
 * Note that the document contains both "normal" text (which actually is Markdown text) combined with 'chunks' of R code (the grey pieces)
-* Try and run the document by pressing the "Knit PDF" button just above the document in Rstudio
-    + a pdf document appears in which the Rmarkdown + R code is combined to a single document. 
+* Try and run the document by pressing the "Knit html" button just above the document in Rstudio
+    + an html document appears in which the Rmarkdown + R code is combined to a single document.
+    
+Add new data
+Now, we are going to use data from an online source. We will use data from the Marine Projects database. 
+
+Code can be inserted by "insert a new code chunk" button (green c) or by ctrl-alt-i 
+
+Make a document that reads data, and uses the data for a time plot.
+
+read data from the url: "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&maxFeatures=50&outputFormat=csv"
+```{r}
+## define url of WFS service, where data are served as csv file:
+url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&maxFeatures=50&outputFormat=csv"
+## read data as csv (strings are read as character type, not as factors)
+bivalves <- read.csv(url, stringsAsFactors = F)
+```
+
+Observe that these are only the first 50 records. This is fine for testing.
+
+```{r}
+##Look at the structure of the data set in the environment pane, or by running:
+str(bivalves)
+## Date and time are characters at this moment. They can be converted to date and time object by combining them in a new column 'datetime':
+bivalves$datetime <- paste(bivalves$Begindatum, bivalves$Begintijd)
+## and convert to POSIXct format
+bivalves$datetime <- as.POSIXct(bivalves$datetime, format = "%Y-%m-%d %H:%M")
+```
+
+First, we plot locations, longitude and latitude fields are used.
+Using Base functionality
+```{r, fig.height = 3}
+plot(bivalves$GeometriePunt.x, bivalves$GeometriePunt.y)
+```
+
+Or using the ggplot package
+
+```{r PlotGgplot, fig.height=4}
+require(ggplot2)
+p <- ggplot(bivalves, aes(GeometriePunt.x, GeometriePunt.y))
+p + geom_point(aes(color = Metingomschrijving))
+```
+
+Or using an interactive map
+
+```{r PlotLeaflet}
+require(leaflet)
+
+leaflet() %>%
+  addTiles(group = "OSM (default)") %>%
+  addCircleMarkers(data=bivalves, 
+                   lng = bivalves$GeometriePunt.x, 
+                   lat = bivalves$GeometriePunt.y,
+                   popup = sprintf(as.character(bivalves$Metingomschrijving)) 
+                   # clusterOptions = markerClusterOptions()
+                   )
+
+```
+
+
 
