@@ -25,11 +25,12 @@ install.packages(c(
 ))
 ```
 
+To render Rmarkdown documents to a pdf format, you will need to have installed MikTex (perhaps also LaTeX2RTF, not sure). This can be done via the Deltares Appstore after notice. 
 
 For novices in R, there are loads of online courses to get started with R. For example:
 
 -   An [ICES course](http://ices.dk/news-and-events/Training/Pages/R-environment.aspx) in R is just starting: [online course material](https://github.com/fishvice/tcrenv2016)
--   [Online learning from Rstudio](https://www.rstudio.com/resources/training/online-learning/)
+-   [Online learning at Rstudio](https://www.rstudio.com/resources/training/online-learning/)
 
 ## Data 
 

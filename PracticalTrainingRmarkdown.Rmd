@@ -1,0 +1,18 @@
+---
+title: "Practical training Rmarkdown"
+author: "Willem Stolte"
+date: "February 25, 2016"
+output: pdf_document
+---
+
+## Start a new Rmarkdown document
+
+* In Rstudio, choose from file menu: New File / R Markdown...
+* Determine what kind of document you want it to be
+    + for this training, choose "pdf"
+    Note that you can also choose a presentation, which changes the choices of the formats that it can handle
+* The document opens with some standard, functional, content to get going
+* Note that the document contains both "normal" text (which actually is Markdown text) combined with 'chunks' of R code (the grey pieces)
+* Try and run the document by pressing the "Knit PDF" button just above the document in Rstudio
+    + a pdf document appears in which the Rmarkdown + R code is combined to a single document. 
+
