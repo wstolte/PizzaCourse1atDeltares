@@ -2,7 +2,8 @@
 title: "Practical training Rmarkdown"
 author: "Willem Stolte"
 date: "February 25, 2016"
-output: pdf_document
+output: 
+  html_document
 ---
 
 ## Start a new Rmarkdown document
@@ -12,7 +13,7 @@ output: pdf_document
     + for this training, choose "html"
     Note that you can also choose a presentation, which changes the choices of the formats that it can handle
 * The document opens with some standard, functional, content to get going
-* Note that the document contains both "normal" text (which actually is Markdown text) combined with 'chunks' of R code (the grey pieces)
+* Note that the document contains both "normal" text (with Markdown formatting) combined with 'chunks' of R code (the grey pieces)
 * Try and run the document by pressing the "Knit html" button just above the document in Rstudio
     + an html document appears in which the Rmarkdown + R code is combined to a single document.
     
@@ -23,15 +24,23 @@ Code can be inserted by "insert a new code chunk" button (green c) or by ctrl-al
 
 Make a document that reads data, and uses the data for a time plot.
 
-read data from the url: "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&maxFeatures=50&outputFormat=csv"
-```{r}
+```{r, message=F, warning=F, results=F}
+## first look which layers there are in the wfs
+## (can also interactively be done in QGIS)
+library(gdalUtils)
+library(rgdal)
+dsn <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&request=GetCapabilities"
+dsn <- "http://marineprojects.openearth.nl/geoserver/ows?service=WFS&request=GetCapabilities"
+ogrinfo(dsn, so=TRUE)
+
+
 ## define url of WFS service, where data are served as csv file:
 url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&maxFeatures=50&outputFormat=csv"
 ## read data as csv (strings are read as character type, not as factors)
 bivalves <- read.csv(url, stringsAsFactors = F)
 ```
 
-Observe that these are only the first 50 records. This is fine for testing.
+Observe that these are only the first 50 records. This is perfect for testing.
 
 ```{r}
 ##Look at the structure of the data set in the environment pane, or by running:
@@ -72,5 +81,34 @@ leaflet() %>%
 
 ```
 
+# Neat Reporting
+
+## creating nice graphs
+
+For more serious reporting, some more styling can be done. In the first place, often you don't want the code to be reproduced in the report. This can be arranged by the "echo = F" command in the code specification. Explore the other 
+
+```{r, echo = F}
+url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&outputFormat=csv"
+## read data as csv (strings are read as character type, not as factors)
+bivalves <- read.csv(url, stringsAsFactors = F)
+# plot the results
+require(ggplot2)
+p <- ggplot(bivalves, aes(x = Metingomschrijving, y = Numeriekewaarde)) 
+p + geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  ylab(unique(bivalves$Eenheid.code)) +
+  facet_grid(organisme.naam ~ .)
+```
+
+
+## Creating tables
+Lets now present the data in a cross-table. The long table "bivalves" will be turned into a cross-table using the cast function from the reshape2 package. dcast is used, as the input is a dataframe. 
+ 
+```{r, echo = F}
+# first make a cross table of species and locations
+require(reshape2)
+bivalcross <- dcast(data = bivalves, formula = Metingomschrijving ~ organisme.naam, value.var = "Numeriekewaarde")
+knitr::kable(bivalcross, align = "l")
+```
 
 
