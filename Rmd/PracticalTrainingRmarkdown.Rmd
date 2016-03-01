@@ -85,30 +85,36 @@ leaflet() %>%
 
 ## creating nice graphs
 
-For more serious reporting, some more styling can be done. In the first place, often you don't want the code to be reproduced in the report. This can be arranged by the "echo = F" command in the code specification. Explore the other 
+For more serious reporting, some more styling can be done. In the first place, often you don't want the code to be reproduced in the report. This can be arranged by the "echo = F" command in the code specification. Explore the other options for th code specification by pressing "tab" inside the specification {r, <press tab>}
 
-```{r, echo = F}
-url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&outputFormat=csv"
-## read data as csv (strings are read as character type, not as factors)
-bivalves <- read.csv(url, stringsAsFactors = F)
-# plot the results
-require(ggplot2)
-p <- ggplot(bivalves, aes(x = Metingomschrijving, y = Numeriekewaarde)) 
-p + geom_bar(stat = "identity") + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  ylab(unique(bivalves$Eenheid.code)) +
-  facet_grid(organisme.naam ~ .)
-```
+\```{r, echo = F}
+url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&outputFormat=csv"  
+## read data as csv (strings are read as character type, not as factors)  
+bivalves <- read.csv(url, stringsAsFactors = F)  
+# plot the results  
+require(ggplot2)  
+p <- ggplot(bivalves, aes(x = Metingomschrijving, y = Numeriekewaarde))   
+p + geom_bar(stat = "identity") +   
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  
+  ylab(unique(bivalves$Eenheid.code)) +  
+  facet_grid(organisme.naam ~ .)  
+\```
 
 
 ## Creating tables
 Lets now present the data in a cross-table. The long table "bivalves" will be turned into a cross-table using the cast function from the reshape2 package. dcast is used, as the input is a dataframe. 
  
-```{r, echo = F}
+```{r, message=F, warning=F, results=F}  
 # first make a cross table of species and locations
 require(reshape2)
 bivalcross <- dcast(data = bivalves, formula = Metingomschrijving ~ organisme.naam, value.var = "Numeriekewaarde")
-knitr::kable(bivalcross, align = "l")
+knitr::kable(head(bivalcross, 10), align = "l")
 ```
+
+some tips
+
+* Do not use the "reindent lines" command on the whole document, spaces are important in Rmarkdown. 
+* Use the help (F1, tab). and [cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) and  [format specific help](http://rmarkdown.rstudio.com/) (/formats)
+* tables can be made in a number of ways. 
 
 

@@ -274,7 +274,11 @@ leaflet(data = pvisloc) %>%
 
 * Start Rshiny document
 * Start Rmarkdown document
-* Use open data set
+* Use open data sets
+
+* Start by opening project
+    + Download from Github
+    + start PizzaCourse1atDeltares.Rproj in Rstudio (doubleclick)
 
 
 
