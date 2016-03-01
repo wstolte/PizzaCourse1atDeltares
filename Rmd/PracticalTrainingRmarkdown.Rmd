@@ -3,7 +3,7 @@ title: "Practical training Rmarkdown"
 author: "Willem Stolte"
 date: "February 25, 2016"
 output: 
-  html_document
+  pdf_document
 ---
 
 ## Start a new Rmarkdown document
@@ -17,14 +17,15 @@ output:
 * Try and run the document by pressing the "Knit html" button just above the document in Rstudio
     + an html document appears in which the Rmarkdown + R code is combined to a single document.
     
-Add new data
-Now, we are going to use data from an online source. We will use data from the Marine Projects database. 
+replace the standard code and text with new code and text
+We are going to use data from an online source. We will use data from the Marine Projects database. 
 
 Code can be inserted by "insert a new code chunk" button (green c) or by ctrl-alt-i 
 
 Make a document that reads data, and uses the data for a time plot.
+It is a good habit to name the code chunks. For example \```{r ReadData}
 
-```{r, message=F, warning=F, results=F}
+```{r ReadData, message=F, warning=F, results=F}
 ## first look which layers there are in the wfs
 ## (can also interactively be done in QGIS)
 library(gdalUtils)
@@ -67,7 +68,7 @@ p + geom_point(aes(color = Metingomschrijving))
 
 Or using an interactive map
 
-```{r PlotLeaflet}
+```{r PlotLeaflet, eval=F}
 require(leaflet)
 
 leaflet() %>%
@@ -81,24 +82,27 @@ leaflet() %>%
 
 ```
 
+(leaflet maps doe not work with pdf or word documents)
+
+
 # Neat Reporting
 
-## creating nice graphs
+## creating nice looking reports
 
-For more serious reporting, some more styling can be done. In the first place, often you don't want the code to be reproduced in the report. This can be arranged by the "echo = F" command in the code specification. Explore the other options for th code specification by pressing "tab" inside the specification {r, <press tab>}
+For more serious reporting, some more styling can be done. In the first place, often you don't want the code to be reproduced in the report. This is done by the "echo = F" command in the code specification. Explore the other options for th code specification by pressing "tab" inside the specification {r, <press tab>}
 
-\```{r, echo = F}
-url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&outputFormat=csv"  
-## read data as csv (strings are read as character type, not as factors)  
-bivalves <- read.csv(url, stringsAsFactors = F)  
-# plot the results  
+\\```{r, echo = F}  
+url <- "http://marineprojects.openearth.nl/geoserver/mep-nsw/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mep-nsw:mep-nsw_bivalves&outputFormat=csv"    
+## read data as csv (strings are read as character type, not as factors)    
+bivalves <- read.csv(url, stringsAsFactors = F)    
+# plot the results   
 require(ggplot2)  
 p <- ggplot(bivalves, aes(x = Metingomschrijving, y = Numeriekewaarde))   
 p + geom_bar(stat = "identity") +   
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +  
   ylab(unique(bivalves$Eenheid.code)) +  
   facet_grid(organisme.naam ~ .)  
-\```
+\\```
 
 
 ## Creating tables

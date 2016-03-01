@@ -3,7 +3,7 @@ title: "Practical training Shiny interactive map"
 author: "Willem Stolte"
 date: "February 25, 2016"
 output: 
-  html_document
+  pdf_document
 ---
 
 This is an instruction for building a simple Shiny app in R. We will use online data. This is the document with instructions, a ready to use app can be found in the projectfolder (CourseApps/app.R)
