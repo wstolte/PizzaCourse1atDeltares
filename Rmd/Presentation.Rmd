@@ -233,8 +233,9 @@ leaflet() %>%
 
 
 ## WFS
-[Marine projects geoserver](http://marineprojects.openearth.nl/geoserver/web/)
-[WTF is WFS en how to?](https://publicwiki.deltares.nl/display/OET/WFS+primer)
+
+[Marine projects geoserver](http://marineprojects.openearth.nl/geoserver/web/)  
+[What is WFS en how to?](https://publicwiki.deltares.nl/display/OET/WFS+primer)  
 First look what is in the wfs (can also interactively be done in QGIS)
 using rgdal, building on [GDAL](http://www.gdal.org/)
 ```{r, warning=F, message=F, results=F}
@@ -265,8 +266,8 @@ leaflet(data = pvisloc) %>%
 
 ## Gridded data products
 
-* Heat maps
 * Data interpolation
+* Gridded of data
 * Export to NetCDF file format
 
 ## Practical 
