@@ -1,0 +1,63 @@
+---
+title: "Style example"
+author: "Fedor Baart"
+date: "29 Feb 2016"
+output: html_document
+---
+
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans" />
+
+<style>
+// Deltares colors: #008fc5, #92b6c7, #a09e8d 
+body {
+  font-family: Open Sans;
+}
+
+h2,h3,h4,h5,h6 {
+  color: #008fc5;
+}
+h1 {
+  color: #eb0073;
+
+}
+.author {
+  font-weight: bold;
+}
+pre,img {
+ background-color: #92b6c7;
+ -webkit-filter: drop-shadow(2px 2px 5px rgba(0,0,0,.5)) ;
+ filter: drop-shadow(2px 2px 5px rgba(0,0,0,.5)) sepia(5%);
+}
+pre .identifier {
+ color: white;
+}
+pre .paren {
+ color: #ddd;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+# R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+ggplot(data=pressure, aes(x=temperature, y=pressure)) + geom_point()
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

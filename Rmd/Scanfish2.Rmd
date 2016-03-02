@@ -2,7 +2,9 @@
 title: "Scanfish from OpenEarth OPeNDAP"
 author: "Willem Stolte"
 date: "January 8, 2016"
-output: html_document
+output:
+  html_document:
+    css: www/DeltaresStyle.css
 ---
 
 ```{r load_packages, echo = F, message=F, warning=F, results=F, error=F}

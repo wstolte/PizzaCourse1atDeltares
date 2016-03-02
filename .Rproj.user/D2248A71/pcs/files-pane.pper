@@ -1,9 +1,13 @@
 {
-    "path" : "D:/GitHubClones/PizzaCourse1atDeltares",
+    "path" : "D:/GitHubClones/PizzaCourse1atDeltares/Rmd",
     "sortOrder" : [
         {
             "ascending" : true,
             "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 4
         }
     ]
 }
