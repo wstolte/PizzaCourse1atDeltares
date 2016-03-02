@@ -3,7 +3,7 @@ title: "Waterkwaliteit Veerse Meer Bekkenrapportage"
 author: "Willem Stolte"
 date: "December 1, 2015"
 output:
-  html_document:
+  pdf_document:
     fig_caption: yes
     number_sections: yes
 ---
@@ -55,12 +55,12 @@ VMdag_tidy<-melt(VMdag, id.vars = c("Datum", "Meetpaal"))
 VMdag_tidy$Meting<-paste(VMdag_tidy$Meetpaal, VMdag_tidy$variable)
 ```
 
-#5. Waterkwaliteit
+#Waterkwaliteit
 
-##5.1. Monitoring
+##Monitoring
 Waterkwaliteitsgegevens worden gemeten in het MWTL monitoringsprogramma van Rijkswaterstaat. De gegevens die hier gepresenteerd worden zijn afkomstig van metingen van het monsterpunt Soelekerkerpolder Oost, tenzij anders vermeld. Hier wordt 1-2 maal per maand gemeten. Omdat dit meetpunt het enige doorlopende meetpunt voor waterkwaliteit in het Veerse Meer is, worden deze data hier gepresenteerd. In het verleden werd ook op andere punten waterkwaliteit gemeten, maar die metingen zijn niet voortgezet na 2007.
 
-##5.2. Saliniteit (chloride)
+##Saliniteit (chloride)
 Het Veerse Meer is door de opening van de Katse Heule aanzienlijk zouter geworden. De huidige saliniteit (28-30 ppt) is maar weinig lager dan die in de Oosterschelde (Wissenkerke 32 ppt). De seizoensvariatie is hetzelfde gebleven. Het Veerse Meer is in de (na)zomer zouter dan in de winter. Het verschil is ongeveer 5 ppt. De verticale verschillen zijn door de Katse Heule sterk verminderd. De verticale gradiënt bedroeg vóór de opening van de Katse Heule meer dan 5 ppt, na de opening 2 ppt.
 Door de Katse Heule is, evenredig met het toegenomen zoutgehalte, het percentage zoet water sterk verminderd, van ongeveer 45% naar ongeveer 15%. De oorzaak is niet een verminderde polderbelasting, maar een grotere uitwisseling met de Oosterschelde waardoor het zoete water wordt verdund en afgevoerd.
 Figuur 5.1 toont de daggemiddelde saliniteit gemeten op locaties VM4 en VM5. De seizoensvariatie met hogere saliniteit in de zomer en lager saliniteit in de winter en de sprong in saliniteit na de ingebruikname van de Katse Heule in 2004 springen het meest in het oog.
@@ -97,7 +97,7 @@ De saliniteit in het Veerse Meer varieerde in de periode 2000-2014 tussen `r rou
 plot.meetpaal.data(newsubset, ylabel = "Daggemiddelde saliniteit (PSU)", xlabel = "Datum")
 ```
 
-##5.3. Temperatuur
+##Temperatuur
 ```{r select_temperatuur, echo = F, warning = F}
 ## select temperature data and plot
 newsubset <- subset(VMdag_tidy, VMdag_tidy$variable %in% c("Temperatuur boven", "Temperatuur beneden"))
@@ -108,7 +108,7 @@ De watertemperatuur in het Veerse Meer varieerde in de periode 2000-2014 tussen 
 plot.meetpaal.data(newsubset, ylabel = "Daggemiddelde temperatuur (C)", xlabel = "Datum")
 ```
 
-##5.4. Zwevende stof en doorzicht
+##Zwevende stof en doorzicht
 
 ```{r read_waterbase_data, echo = F, warning=F, comment=F}
 ## Load data, specify path when needed
@@ -193,7 +193,7 @@ plotWaterbase(subdf, "variable", xx = "datetime", yy = "waarde", unit = "eenheid
 
 Doorzicht in dm in het Veerse Meer varieerde in de periode `r beginjaar` tot `r eindjaar` tussen `r round(min(subdf$waarde, na.rm = T), 1)` en `r round(max(subdf$waarde, na.rm = T), 1)` m^-1^ (Figuur 5.1).
 
-##5.5. Nutrientenconcentraties
+##Nutrientenconcentraties
 De orthofosfaatconcentraties in het Veerse Meer zijn sterk gedaald na de ingebruikname van de Katse Heule (Fig. 5.6). De concentraties vertonen een typisch seizoenspatroon met minimum concentraties in april en maximale concentraties in het najaar en het begin van de winter. De concentraties in najaar/winter zijn gedaald tot gemiddeld 0,17 mg P/l (was 0,42 mg P /l in 2000-2004). Het voorjaarsminimum is ook lager geworden na de opening van de Katse Heule en is nu gemiddeld 0,045 mg P/l, wat overigens nog steeds boven het niveau is waar fosfaatconcentraties limiterend worden voor de groei van fytoplankton (<0,014 mg P/l; (Fisher et al. 1988, Peeters & Peperzak 1990, Fisher et al. 1992)).
 Opvallend is ook dat de maximale fosfaatconcentraties bij de bodem, die gedurende de zomer altijd stijgen als gevolg van mineralisatie en desorptie in het sediment, zijn afgenomen tot ongeveer 1/5 van de concentraties in de periode voor de Katse Heule.
 
@@ -235,14 +235,14 @@ plotWaterbase(subdf, "variable", xx = "datetime", yy = "waarde", unit = "eenheid
 
 ```
 
-##5.6. Verontreinigende stoffen
+##Verontreinigende stoffen
 
-###5.6.1 Monitoring
+###Monitoring
 Binnen de KRW worden drie soorten monitoring onderscheiden. De Toestand en Trend
 Monitoring (T&T), de Operationele monitoring (OM) en de zogenaamde Monitoring Nader
 Onderzoek (Investigative Monitoring). Alle prioritaire en specifiek verontreinigende stoffendienen een keer per planperiode van 6 jaar te worden gemeten voor de T&T monitoring(Faber et al. 2011). Voor de Operationele Monitoring dient jaarlijks gemeten te worden voor die stoffen, waarvoor een waterlichaam 'at risk' is en de doelstelling voor 2015 niet gehaalddreigt te worden. De prioritaire stoffen worden 12 keer per jaar, minimaal 1 keer per maand bemonsterd, met uitzondering van bestrijdingsmiddelen, die alleen in het groeiseizoen mogen worden gemeten. De specifiek verontreinigende stoffen worden 4 keer per jaar bemonsterd, waarbij de bemonstering minimaal 1 keer per kwartaal plaatsvindt. In 2007 is het KRW monitoringsprogramma gestart. Er zijn dus slechts een beperkt aantal monitoringgegevens beschikbaar waarover de beoordeling van de huidige toestand kan worden gemaakt.
 
-###5.6.2 Toetsing
+###Toetsing
 In het Veerse Meer overschrijden geen van de prioritaire stoffen de normen.
 Van de specifiek verontreinigende stoffen zijn boor en koper als probleemstof aangemerkt (Bellert et al. 2014).
 
